@@ -1,0 +1,71 @@
+<ui:composition 
+    template="./WEB-INF/templates/LayoutCadastro.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+      <ui:define name="titulo"> <title>Pesquisa Produto	</title></ui:define>
+      <ui:define name="btNovo">
+                            <p:commandButton value="Novo Cliente" action="/CadastroCliente.xhtml" icon="ui-icon-document"   />
+                        </ui:define>
+                        
+     <ui:define name="btPesquisa" >
+    	<p:outputLabel value="Pesquisar:" class="hvr-toolbar" />
+        <p:inputMask id="filtro" mask="" 
+        placeholder="Informe o texto para pesquisar" size="30"
+        class="hvr-toolbar" disabled="false" 
+        value="#{clienteView.pesquisa}"/>
+        <p:commandButton value="Pesquisar"  icon="fa fa-search" update=":frm"  
+        action="#{clienteView.pesquisar}"/>
+	</ui:define>
+    
+    
+    <ui:define name="dados">         
+	
+	  <h:form id= "frm">
+	  	<p:dataTable value="#{clienteView.listaClientes}" var="listaCliente" id="listaCliente"
+	  		rows="16" paginator="true">
+	   		<p:column headerText= "Id Cliente" style="text-align: center" width="90"
+	   			sortBy="#{listaCliente.codigo}">
+	   			<h:outputText value= "#{listaCliente.codigo}"/>
+	   		</p:column>
+	   		
+	   		<p:column headerText= "Nome"
+	   			sortBy="#{listaCliente.nome}">
+	   			<h:outputText value= "#{listaCliente.nome}"/>
+	   		</p:column>
+	   		<p:column headerText= "Telefone" width="140" style="text-align: left"
+	   			sortBy="#{listaCliente.telefone}">
+	   			<h:outputText value= "#{listaCliente.telefone}"/>
+	   			
+	   		</p:column>
+	   		<p:column headerText= "Cpf" style="text-align: center" width="240"
+	   			sortBy="#{listaCliente.cpf}">
+	   			<h:outputText value= "#{listaCliente.cpf}"/>
+	   		</p:column>
+	   		<p:column style="width: 100px; text-align: center">
+	   			<p:commandButton icon="ui-icon-pencil" title="Editar" actionListener="#{clienteView.abrirCadastro(listaCliente)}" />
+	   			<p:commandButton icon="ui-icon-trash" title="Excluir"
+	   			process="@this" update="frmExc" oncomplete="PF('confirmdlg').show()">
+	   				<f:setPropertyActionListener value="#{listaCliente}"
+	   				target="#{clienteView.entity}" />
+	   			</p:commandButton>
+	   		</p:column>
+	   	</p:dataTable>	
+	  </h:form>
+	 <h:form id="frmExc">
+			<p:confirmDialog id="confDlg" widgetVar="confirmdlg" 
+			global="true" showEffect="fade" hideEffect="fade" responsive="true" 
+			message="Confirma excluir registro: #{clienteView.entity.codigo} - #{clienteView.entity.nome}?"
+			header="Confirmar exclusão">
+			  <p:commandButton value="Sim" onclick="PF('confirmdlg').hide()"  action="#{clienteView.excluir}"
+			   update=":frm:listaCliente" process="@this" />
+			  <p:commandButton value="Não" onclick="PF('confirmdlg').hide()" />
+			</p:confirmDialog>
+   	</h:form>
+      
+	
+	 </ui:define>
+</ui:composition>

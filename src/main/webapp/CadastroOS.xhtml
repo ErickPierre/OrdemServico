@@ -1,0 +1,148 @@
+<ui:composition 
+    template="./WEB-INF/templates/LayoutCadastro.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+      <ui:define name="titulo"> <title>Cadastro OS </title></ui:define>
+ 
+      <ui:define name="btSalvar">
+                            <p:commandButton title="Salvar"  icon="ui-icon-disk"   style="margin-left: 5px;"/>
+                        </ui:define>
+                        <ui:define name="btCancelar">
+                            <p:commandButton title="Cancelar" action="/OrdemServico.xhtml" icon="ui-icon-cancel"   style="margin-left: 5px;"/>
+                        </ui:define>
+      <ui:define name="btPesquisa">
+                            <p:outputLabel value="Pesquisar:" class="hvr-toolbar" />
+                            <p:inputMask mask="" placeholder="Informe o texto para pesquisar" size="30" class="hvr-toolbar" disabled="true 	"/>
+                            <p:commandButton value="Pesquisar"  icon="fa fa-search" update="@form"  disabled="true"/>
+                        </ui:define>
+    <ui:define name="dados">
+       
+    <h:form id="frm">
+       
+      <p:panelGrid columns="2" id="painel" class="ui-panelgrid" style="width: 100%;"
+              		columnClass="Rotulo, campo">
+                	<p:outputLabel value="*Nº OS" for="os" />
+                	<p:inputText id="os" value="#{ordemServicoView.entity.codigo}" disabled="true" size="10" maxlength="80"/>
+                	
+                	<p:outputLabel value="*Placa do veículo" for="placaVeiculo"/>
+                	<p:inputText id="placaVeiculo" value="#{ordemServicoView.entity.placa}" size="40" maxlength="20" required = "true"/>
+                	
+                	<p:outputLabel value="*Categoria" for="categoria"/>
+                	<p:selectOneMenu id="categoria" size="200" maxlength="80" value="#{ordemServicoView.entity.categoria}" required = "true">
+                	 	<f:selectItem itemValue="" itemLabel="Selecione a Categoria" />
+                	 	<f:selectItem itemValue="P" itemLabel="Preventiva"/>
+                	 	<f:selectItem itemValue="C" itemLabel="Corretiva"/>
+                	</p:selectOneMenu>
+                	
+                	<p:outputLabel value="*Vincular Cliente" for="cliente"/>
+                	<p:selectOneMenu id="cliente" size="200" maxlength="80" filter="true" filterMatchMode="startsWith" 
+                	value="#{ordemServicoView.entity.cliente}" converter="#{entityConverter}" >
+                	 	<f:selectItem itemLabel="Selecione o cliente" itemValue=""/>
+                	 	<f:selectItems value="#{clienteView.listaClientes}" var="objCliente"
+                	 	 itemLabel="#{objCliente.nome}" itemValue="#{objCliente}" />
+                	</p:selectOneMenu>
+                	
+                	<p:outputLabel value="*Status Os" for="status"/>
+                	<p:selectOneMenu id="status" value="#{ordemServicoView.entity.statusOs}" required = "true">
+                		<f:selectItem itemLabel="Selecione o status"/>
+                		<f:selectItem itemValue="P" itemLabel="Pendente"/>
+                	 	<f:selectItem itemValue="C" itemLabel="Finalizada"/>
+                	<p:commandButton icon="pi pi-search" styleClass="ui-button-warning"/>
+                	</p:selectOneMenu>
+                
+                	  <p:outputLabel value="*Observação" for="obs"/>
+      				  <p:inputTextarea id="obs" rows="6" cols="80" value="#{ordemServicoView.entity.observacao}"/>
+      				
+      				
+      			<p:spacer style="height:5px"/> 
+      			<p:spacer style="height:5px"/> 
+      		
+      		<p:outputLabel value="*Serviço" for="servico"/>
+      		<p:panelGrid columns="5"  layout="grid" >
+      			<p:selectOneMenu id="servico"   size="100" maxlength="70" filter="true" filterMatchMode="startsWith" 
+      			value="#{ordemServicoView.servico}" converter="#{entityConverter}" >
+                	<f:selectItem itemLabel="Selecione o serviço"/>
+                	<f:selectItems value="#{servicoView.listaServico}" var="objServico"
+                	 	 itemLabel="#{objServico.descricao}" itemValue="#{objServico}" />
+            	</p:selectOneMenu>
+           		<p:outputLabel value="*Quantidade" for="qtdServ"/> 
+           	 	<p:inputText id="qtdServ" size="1" maxlength="80" value="#{ordemServicoView.quantidadeServico}"/> 
+           	 	<p:commandButton icon="ui-icon-disk"  action="#{ordemServicoView.incluirServico}" update="listaServico"/>
+             </p:panelGrid>
+
+          <p:spacer/>
+          <p:dataTable  id="listaServico" var="listaServico"  value="#{ordemServicoView.entity.listaServicos}"
+	  		rows="16" paginator="false">
+	   		<p:column headerText= "Serviço" style="text-align: center" >
+	   			<h:outputText value="#{listaServico.servico.descricao}" />
+	   		</p:column>
+	   		
+	   		<p:column headerText= "Qnt" style="text-align: center" width="20"
+	   			sortBy=" ">
+	   			<h:outputText value="#{listaServico.quantidade}"/>
+	   		</p:column>
+	   		<p:column headerText= "Valor unitário"  style="text-align: left"
+	   			sortBy=" ">
+	   			<h:outputText value="#{listaServico.valorUnt}"/>
+	   			
+	   		</p:column>
+	   		<p:column headerText= "Valor total" style="text-align: center" 
+	   			sortBy=" ">
+	   			<h:outputText value="#{listaServico.valorTotal}"/>
+	   		</p:column>
+	   		<p:column style="width: 100px; text-align: center">
+	   			<p:commandButton icon="ui-icon-trash" title="Excluir" update="listaServico" action="#{ordemServicoView.excluirServico(listaServico)}" />
+	   		</p:column>
+	    </p:dataTable>	
+	   	
+      		<p:outputLabel value="*Produto" for="produto"/>
+      		<p:panelGrid columns="5"  layout="grid" >
+      			<p:selectOneMenu id="produto"  size="100" maxlength="70" filter="true" filterMatchMode="startsWith" 
+      			value="#{ordemServicoView.produto}" converter="#{entityConverter}" >
+                	<f:selectItem itemLabel="Selecione o Produto"/>
+                	<f:selectItems value="#{produtoView.listaProdutos}" var="objProduto"
+                	 	 itemLabel="#{objProduto.descricao}" itemValue="#{objProduto}" />
+            	</p:selectOneMenu>
+           		<p:outputLabel value="*Quantidade" for="qtdProd"/> 
+           	 	<p:inputText id="qtdProd" size="1" maxlength="80" value="#{ordemServicoView.quantidadeProduto}"/> 
+           	 	<p:commandButton icon="ui-icon-disk" action="#{ordemServicoView.incluirProduto}" update="listaProduto" />
+             </p:panelGrid>
+
+          <p:spacer/>
+          <p:dataTable var="listaProduto" id="listaProduto" value="#{ordemServicoView.entity.listaProdutos}"
+	  		rows="16" paginator="false">
+	   		<p:column headerText= "Produto" style="text-align: center" >
+	   			<h:outputText value="#{listaProduto.produto.descricao}"/>
+	   		</p:column>
+	   		<p:column headerText= "Qnt" style="text-align: center" width="20">
+	   			<h:outputText value="#{listaProduto.quantidade}"/>
+	   		</p:column>
+	   		<p:column headerText= "Valor unitário"  style="text-align: left" 
+	   			sortBy=" ">
+	   			<h:outputText value="#{listaProduto.valorUnt}"/>
+	   			
+	   		</p:column>
+	   		<p:column headerText= "Valor total" style="text-align: center" 
+	   			sortBy=" ">
+	   			<h:outputText value="#{listaProduto.valorTotal}"/>
+	   		</p:column>
+	   		<p:column style="width: 100px; text-align: center">
+	   			<p:commandButton icon="ui-icon-trash" title="Excluir" update="listaProduto" action="#{ordemServicoView.excluirProduto(listaProduto)}" />
+	   		</p:column>
+	    </p:dataTable>	
+	   	
+     </p:panelGrid>
+      	
+      		 <p:commandButton value="Salvar"  action="#{ordemServicoView.salvar()}"
+      		update= "frmMsg @form"/>
+    		
+                
+     </h:form>
+    </ui:define>
+</ui:composition>
+
+

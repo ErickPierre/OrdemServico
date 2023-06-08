@@ -1,0 +1,58 @@
+<ui:composition 
+    template="./WEB-INF/templates/LayoutCadastro.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+      <ui:define name="titulo"> <title>Cadastro Cliente</title></ui:define>
+    
+      <ui:define name="btSalvar">
+                            <p:commandButton title="Salvar"  icon="ui-icon-disk"   style="margin-left: 5px;"/>
+                        </ui:define>
+                        <ui:define name="btCancelar">
+                            <p:commandButton title="Cancelar" action="/PesquisaCliente.xhtml" icon="ui-icon-cancel"   style="margin-left: 5px;"/>
+                        </ui:define>
+      <ui:define name="btPesquisa">
+                            <p:outputLabel value="Pesquisar:" class="hvr-toolbar" />
+                            <p:inputMask mask="" placeholder="Informe o texto para pesquisar" size="30" class="hvr-toolbar" disabled="true 	"/>
+                            <p:commandButton value="Pesquisar"  icon="fa fa-search" update="@form"  disabled="true"/>
+                        </ui:define>
+    <ui:define name="dados">
+       
+       
+     <h:form id="frm">
+      <p:panelGrid columns="2" id="painel" class="ui-panelgrid"  style="width: 100%;"
+              		columnClass="Rotulo, campo">
+                	<p:outputLabel value="ID Cliente" for="idCliente"/>
+                	<p:inputText id="idCliente" value="#{clienteView.entity.codigo}" disabled="true" size="10" maxlength="80"/>
+                	
+                	<p:outputLabel value="Nome" for="nomeCli"/>
+                	<p:inputText id="nomeCli" value="#{clienteView.entity.nome}" size="60" maxlength="20" required= "true" />
+                	
+                	<p:outputLabel value="Telefone" for="phone" />
+           			<p:inputMask id="phone" value="#{clienteView.entity.telefone}" mask="(99)99999-9999" validateMask="true" required= "true" />
+                	
+                	<p:outputLabel value="Cpf" for="cpf"/>
+                	<p:inputMask id="cpf" value="#{clienteView.entity.cpf}" mask="" validateMask="true" required= "true" />
+                	
+                	 <p:outputLabel for="cep" value="CEP"/>
+                	<p:inputMask id="cep" value="#{clienteView.entity.cep}" mask="99999.999" validateMask="true" required= "true" />
+                	
+                	<p:outputLabel value="Endereço" for="endereco"/>
+                	<p:inputText id="endereco" value="#{clienteView.entity.endereco}"  size="60" maxlength="80" required= "true" />
+                	
+                	<p:outputLabel value="Número" for="numero"/>
+                	<p:inputText id="numero" value="#{clienteView.entity.numero}" size="20" maxlength="6" required= "true" />
+                	
+                </p:panelGrid>
+                
+                <p:commandButton action="#{clienteView.salvar()}" value="Salvar" update="frmMsg @form" 
+                />
+    			
+    	</h:form>
+    				
+    </ui:define>
+</ui:composition>
+
+

@@ -1,0 +1,60 @@
+<ui:composition 
+    template="./WEB-INF/templates/LayoutCadastro.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+      <ui:define name="titulo"> <title>Cadastro Usuário</title></ui:define>
+    
+      <ui:define name="btSalvar">
+                            <p:commandButton title="Salvar"  icon="ui-icon-disk"   style="margin-left: 5px;"/>
+                        </ui:define>
+                        <ui:define name="btCancelar">
+                            <p:commandButton title="Cancelar" action="/PesquisaUsuario.xhtml" icon="ui-icon-cancel"   style="margin-left: 5px;"/>
+                        </ui:define>
+      <ui:define name="btPesquisa">
+                            <p:outputLabel value="Pesquisar:" class="hvr-toolbar" />
+                            <p:inputMask mask="" placeholder="Informe o texto para pesquisar" size="30" class="hvr-toolbar" disabled="true 	"/>
+                            <p:commandButton value="Pesquisar"  icon="fa fa-search" update="@form"  disabled="true"/>
+                        </ui:define>
+    <ui:define name="dados">
+       
+       
+        <h:form id= "frm">
+      <p:panelGrid columns="2" id="painel" class="ui-panelgrid"  style="width: 100%; "
+              		columnClass="Rotulo, campo">
+                	<p:outputLabel value="ID " for="idUsuario"/>
+                	<p:inputText id="idUsuario" value="#{usuarioView.entity.codigo}" disabled="true" size="10" maxlength="80"/>
+                	
+                	<p:outputLabel value="Nome Usuário" for="nomeusuario"/>
+                	<p:inputText id="nomeusuario" required ="true" value="#{usuarioView.entity.nome}" size="60" maxlength="80" margin-top="20px"/>
+                	
+                	<p:outputLabel for="@next" value="Telefone" />
+            		<p:inputMask id="phoneWithExt" required="true" value="#{usuarioView.entity.telefone}" mask="(99) 99999-9999" />
+                	
+                	<p:outputLabel value="Função" for="funcao"/>
+                	<p:inputText id="funcao" required="true" value="#{usuarioView.entity.funcao}" size="25" maxlength="80"/>
+                	
+                	<p:outputLabel value="E-mail" for="email"/>
+                	<p:inputText id="email" required="true" value="#{usuarioView.entity.email}" size="30" maxlength="80"/>
+                	
+                	<p:outputLabel value="Login" for="login"/>
+                	<p:inputText id="login" required="true" value="#{usuarioView.entity.login}" size="30" maxlength="80"/>
+                	
+                	<p:outputLabel value="Senha" for="senha"/>
+                	<p:password id="senha" required = "true" value="#{usuarioView.entity.senha}" size="30" maxlength="80"/>
+                	
+                	<p:outputLabel value="Confirmar senha" for="csenha"/>
+                	<p:password id="csenha" required="true" value="#{usuarioView.entity.cnfSenha}" size="30" maxlength="80"/>
+                	  	
+                
+                </p:panelGrid>
+               <p:commandButton action="#{usuarioView.salvar()}" value="Salvar" update= "frmMsg @form" 
+                	/>
+    				
+    	   </h:form>
+    </ui:define>
+</ui:composition>
+
+

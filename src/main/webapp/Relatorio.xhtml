@@ -1,0 +1,51 @@
+<ui:composition 
+    template="./WEB-INF/templates/LayoutCadastro.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+      <ui:define name="titulo"> <title>Pesquisa Produto	</title></ui:define>
+      <ui:define name="btNovo">
+                            <p:commandButton value="Relatorio" icon="ui-icon-document" disabled="true"  />
+                        </ui:define>
+    
+      
+    
+    <ui:define name="dados">         
+	
+	  <h:form id= "frm">
+	  	<p:dataTable value="#{listaProdutosBean.listaProdutos}" var="listaProduto"
+	  		rows="16" paginator="true">
+	   		<p:column headerText= "Cliente" style="text-align: center" width="90"
+	   			sortBy=" ">
+	   			<h:outputText value= "Jhonata filho"/>
+	   		</p:column>
+	   		
+	   		<p:column headerText= "Placa"
+	   			sortBy=" ">
+	   			<h:outputText value= "PCB-2432"/>
+	   		</p:column>
+	   		<p:column headerText= "Data" width="240" style="text-align: left"
+	   			sortBy=" ">
+	   			<h:outputText value= "18/02/2023"/>
+	   			
+	   		</p:column>
+	   		<p:column headerText= "OS" style="text-align: center" width="80"
+	   			sortBy=" ">
+	   			<h:outputText value= "001"/>
+	   		</p:column>
+	   		<p:column headerText= "Valor" style="text-align: center" width="80"
+	   			sortBy=" ">
+	   			<h:outputText value= "R$  5300,00"/>
+	   		</p:column>
+	   		<p:column headerText="Ações" style="width: 140px; text-align: center">
+	   			<p:commandButton icon="ui-icon-trash" title="Excluir" />
+	   			<p:commandButton icon="ui-icon-print" title="imprimir" />
+	   		</p:column>
+	   	</p:dataTable>	
+	  </h:form>
+      
+	
+	 </ui:define>
+</ui:composition>

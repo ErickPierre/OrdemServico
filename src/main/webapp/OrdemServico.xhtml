@@ -1,0 +1,70 @@
+<ui:composition 
+    template="./WEB-INF/templates/LayoutCadastro.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+      <ui:define name="titulo"> <title>Ordem de Serviço	</title></ui:define>
+      <ui:define name="btNovo">
+                            <p:commandButton value="Nova OS" action="/CadastroOS.xhtml" icon="ui-icon-document" disabled="false"  />
+                        </ui:define>
+                        
+     <ui:define name="btPesquisa" >
+    	<p:outputLabel value="Pesquisar:" class="hvr-toolbar" />
+        <p:inputMask id="filtro" mask="" 
+        placeholder="Informe o texto para pesquisar" size="30"
+        class="hvr-toolbar" disabled="false" 
+        value="#{ordemServicoView.pesquisa}"/>
+        <p:commandButton value="Pesquisar"  icon="fa fa-search" update=":frm"  
+        action="#{ordemServicoView.pesquisar}"/>
+	</ui:define>
+      
+    
+    <ui:define name="dados">         
+	
+	  <h:form id= "frm">
+	  	<p:dataTable value="#{ordemServicoView.listaOrdemServico}" var="listaOrdemServico" id="listaOrdemServico"
+	  		rows="16" paginator="true">
+	   		<p:column headerText= "Nº OS" style="text-align: center" width="90"
+	   			sortBy="#{listaOrdemServico.codigo}">
+	   			<h:outputText value = "#{listaOrdemServico.codigo}"/>
+	   		</p:column>
+	   		
+	   		<p:column headerText= "Placa" width="140" style="text-align: left"
+	   			sortBy="#{listaOrdemServico.placa}">
+	   			<h:outputText value= "#{listaOrdemServico.placa}"/>
+	   			
+	   		</p:column>
+	   		<p:column headerText= "Cliente" style="text-align: center" width="80"
+	   			sortBy="#{listaOrdemServico.cliente}">
+	   			<h:outputText value= "#{listaOrdemServico.cliente.nome}"/>
+	   		</p:column>
+	   		<p:column headerText= "Status" style="text-align: center" width="80"
+	   			sortBy="#{listaOrdemServico.statusOs}">
+	   			<h:outputText value= "#{listaOrdemServico.statusOs}"/>
+	   		</p:column>
+	   		<p:column headerText="Ações" style="width: 110px; text-align: center">
+	   			<p:commandButton icon="ui-icon-pencil" title="Editar" actionListener="#{ordemServicoView.abrirCadastro(listaOrdemServico)}" />
+	   			<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this"
+	   			 update="frmExc" oncomplete="PF('confirmdlg').show()">
+	   				<f:setPropertyActionListener value="#{listaOrdemServico}"
+	   				target="#{ordemServicoView.entity}" />
+	   			</p:commandButton>
+	   		</p:column>
+	   	</p:dataTable>	
+	  </h:form>
+      	 <h:form id="frmExc">
+			<p:confirmDialog id="confDlg" widgetVar="confirmdlg" 
+			global="true" showEffect="fade" hideEffect="fade" responsive="true" 
+			message="Confirma excluir registro: #{ordemServicoView.entity.codigo} - #{ordemServicoView.entity.placa}?"
+			header="Confirmar exclusão">
+			  <p:commandButton value="Sim" onclick="PF('confirmdlg').hide()"  action="#{ordemServicoView.excluir}"
+			   update=":frm:listaOrdemServico" process="@this" />
+			  <p:commandButton value="Não" onclick="PF('confirmdlg').hide()" />
+			</p:confirmDialog>
+   	</h:form>
+	
+	 </ui:define>
+</ui:composition>

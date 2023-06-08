@@ -1,0 +1,71 @@
+<ui:composition 
+    template="./Layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+     
+    
+    <ui:define name="conteudo">
+    	
+            <div class="hvr-top-bar-fixed js-topbar">
+                <h1 class="hvr-titulo-pagina"><ui:insert name="titulo" /></h1>
+           <h:form id="formTB" >
+                
+                <p:toolbar >
+                    <p:toolbarGroup align="left" >
+                        <ui:insert name="btNovo">
+                            <p:commandButton value="Novo" icon="ui-icon-document" disabled="true" />
+                        </ui:insert>
+
+                        <span class="ui-separator"><span class="ui-icon ui-icon-grip-dotted-vertical" /></span>
+
+                        <ui:insert name="btEditar">
+                            <p:commandButton title="Editar" icon="ui-icon-pencil" disabled="true"/>
+                        </ui:insert>
+                        <ui:insert name="btExcluir">
+                            <p:commandButton title="Excluir" icon="ui-icon-trash" disabled="true"/>
+                        </ui:insert>
+                        <ui:insert name="btImprimir">
+                            <p:commandButton title="Imprimir" icon="ui-icon-print" disabled="true"/>
+                        </ui:insert>
+
+                        <span class="ui-separator"><span class="ui-icon ui-icon-grip-dotted-vertical" /></span>
+                        
+                        <ui:insert name="btAcoes">
+                            <p:menuButton value="Ações" disabled="true"/>
+                        </ui:insert>
+                        
+                        <span class="ui-separator"><span class="ui-icon ui-icon-grip-dotted-vertical" /></span>
+                        
+                        <ui:insert name="btSalvar">
+                            <p:commandButton title="Salvar"  icon="ui-icon-disk" disabled="true" style="margin-left: 5px;"/>
+                        </ui:insert>
+                        <ui:insert name="btCancelar">
+                            <p:commandButton title="Cancelar"  icon="ui-icon-cancel" disabled="true" style="margin-left: 5px;"/>
+                        </ui:insert>
+                    </p:toolbarGroup>
+
+                    <p:toolbarGroup align="right">
+                        <ui:insert name="btPesquisa">
+                            <p:outputLabel value="Pesquisar:" class="hvr-toolbar" />
+                            <p:inputMask mask="" placeholder="Informe o texto para pesquisar" size="30" class="hvr-toolbar" disabled="false"/>
+                            <p:commandButton value="Pesquisar"  icon="fa fa-search" update="@form"  disabled="true"/>
+                        </ui:insert>
+                    </p:toolbarGroup>             
+                </p:toolbar>  
+        </h:form>    
+       
+        <p:scrollPanel mode="native" class="hvr-top-bar-content  js-topbar"  style="width:100%;height:500px">
+        <h:form id="frmMsg">
+            <ui:insert name="mensagens"><p:messages id="msgeral" autoUpdate="true" closable="true"  /></ui:insert>
+         </h:form>   
+
+            <ui:insert name="dados"> Dados </ui:insert>
+            
+        </p:scrollPanel>         
+                
+                    
+            </div>
+    </ui:define>
+</ui:composition>

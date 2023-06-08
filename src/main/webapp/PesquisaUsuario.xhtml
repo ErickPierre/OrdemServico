@@ -1,0 +1,70 @@
+<ui:composition 
+    template="./WEB-INF/templates/LayoutCadastro.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+      <ui:define name="titulo"> <title>Pesquisa Produto	</title></ui:define>
+      <ui:define name="btNovo">
+                            <p:commandButton value="Novo Usuario" action="/CadastroUsuario.xhtml" icon="ui-icon-document"   />
+                        </ui:define>
+    
+      <ui:define name="btPesquisa" >
+    	<p:outputLabel value="Pesquisar:" class="hvr-toolbar" />
+        <p:inputMask id="filtro" mask="" 
+        placeholder="Informe o texto para pesquisar" size="30"
+        class="hvr-toolbar" disabled="false" 
+        value="#{usuarioView.pesquisa}"/>
+        <p:commandButton value="Pesquisar"  icon="fa fa-search" update=":frm"  
+        action="#{usuarioView.pesquisar}"/>
+	</ui:define>
+    
+    <ui:define name="dados">         
+	
+	  <h:form id= "frm">
+	  	<p:dataTable value="#{usuarioView.listaUsuarios}" var="listaUsuario" id="listaUsuario"
+	  		rows="16" paginator="true">
+	  		
+	   		<p:column headerText= "ID" style="text-align: center" width="80"
+	   			sortBy="#{listaUsuario.codigo}">
+	   			<h:outputText value= "#{listaUsuario.codigo}"/>
+	   		</p:column>
+	   		
+	   		<p:column headerText= "Usuário"
+	   			sortBy="#{listaUsuario.nome} ">
+	   			<h:outputText value= "#{listaUsuario.nome}" />
+	   		</p:column>
+	   		<p:column headerText= "Telefone" width="140" style="text-align: left"
+	   			sortBy= "#{listaUsuario.telefone}" >
+	   			<h:outputText value= "#{listaUsuario.telefone}" />
+	   			
+	   		</p:column>
+	   		<p:column headerText= "Função" style="text-align: center" width="200"
+	   			sortBy= "#{listaUsuario.funcao}" >
+	   			<h:outputText value= "#{listaUsuario.funcao}" />
+	   		</p:column>
+	   		<p:column style="width: 100px; text-align: center">
+	   			<p:commandButton icon="ui-icon-pencil" title="Editar" actionListener="#{usuarioView.abrirCadastro(listaUsuario)}"/>
+	   			<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="frmExc" oncomplete="PF('confirmdlg').show()">
+	   				<f:setPropertyActionListener value="#{listaUsuario}"
+	   				target="#{usuarioView.entity}" />
+	   			</p:commandButton>
+	   		</p:column>
+	   	</p:dataTable>	
+	  </h:form>
+	   <h:form id="frmExc">
+			<p:confirmDialog id="confDlg" widgetVar="confirmdlg" 
+			global="true" showEffect="fade" hideEffect="fade" responsive="true" 
+			message="Confirma excluir registro: #{usuarioView.entity.codigo} - #{usuarioView.entity.nome}?"
+			header="Confirmar exclusão">
+			  <p:commandButton value="Sim" onclick="PF('confirmdlg').hide()"  action="#{usuarioView.excluir}"
+			   update=":frm:listaUsuario" process="@this" />
+			  <p:commandButton value="Não" onclick="PF('confirmdlg').hide()" />
+			</p:confirmDialog>
+   	</h:form>
+      
+	
+	 </ui:define>
+</ui:composition>
